@@ -7,8 +7,8 @@ package model;
 import java.sql.Date;
 
 
-public class Users {
-    enum UserType {
+public class User {
+    public enum UserType {
         ADMIN,
         LANDLORD,
         TENANT;
@@ -27,7 +27,7 @@ public class Users {
     private Date joinDate;
     private UserType userType;
     
-    public Users() {
+    public User() {
         userId = 0;
         fullname = "";
         username = "";
@@ -38,7 +38,7 @@ public class Users {
         userType = null;
     }
     
-    public Users(int userId, String fullname, String username, String email, String phone, String password, Date joinDate, UserType userType) {
+    public User(int userId, String fullname, String username, String email, String phone, String password, Date joinDate, UserType userType) {
         this.userId = userId;
         this.fullname = fullname;
         this.username = username;
@@ -52,11 +52,11 @@ public class Users {
     public int getUserId() { return userId; }
     public void setUserId (int userId) { this.userId = userId; }
     
-    public String getFullName() { return fullname; }
-    public void setFullName (String fullname) { this.fullname = fullname; }
+    public String getFullname() { return fullname; }
+    public void setFullname (String fullname) { this.fullname = fullname; }
     
-    public String getUserName() { return username; }
-    public void setUserName (String username) { this.username = username; }
+    public String getUsername() { return username; }
+    public void setUsername (String username) { this.username = username; }
     
     public String getEmail() { return email; }
     public void setEmail (String email) { this.email = email; }
@@ -64,8 +64,8 @@ public class Users {
     public String getPhone() { return phone; }
     public void setPhone (String phone) { this.phone = phone; }
     
-    public String getPassWord() { return password; }
-    public void setPassWord (String password) { this.password = password; }
+    public String getPassword() { return password; }
+    public void setPassword (String password) { this.password = password; }
     
     public Date getJoinDate() { return joinDate; }
     public void setJoinDate (Date joinDate) { this.joinDate = joinDate; }

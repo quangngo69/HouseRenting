@@ -27,6 +27,10 @@ public class Renting {
     private Date endDate;
     
     //Constructor
+    public Renting(){
+        
+    }
+    
     public Renting(int rentId, int propertyId, int tenantId, RentingStatus status, Date bookDate, Date startDate, Date endDate){
         this.rentId = rentId;
         this.propertyId = propertyId;
