@@ -8,16 +8,30 @@ import java.sql.Date;
 
 public class Renting {
     
+    public enum RentingStatus {
+        PENDING,
+        APPROVED,
+        CANCELLED;
+
+        public static RentingStatus fromString(String dbValue) {
+            return RentingStatus.valueOf(dbValue.toUpperCase());
+        }
+    }
+    
     private int rentId;
     private int propertyId;
     private int tenantId;
-    private String status;
+    private RentingStatus status;
     private Date bookDate;
     private Date startDate;
     private Date endDate;
     
     //Constructor
-    public Renting(int rentId, int propertyId, int tenantId, String status, Date bookDate, Date startDate, Date endDate){
+    public Renting(){
+        
+    }
+    
+    public Renting(int rentId, int propertyId, int tenantId, RentingStatus status, Date bookDate, Date startDate, Date endDate){
         this.rentId = rentId;
         this.propertyId = propertyId;
         this.tenantId = tenantId;
@@ -75,11 +89,11 @@ public class Renting {
         this.endDate = endDate;
     }
     
-    public String getStatus(){
+    public RentingStatus getStatus(){
         return status;
     }
     
-    public void setStatus(String status){
+    public void setStatus(RentingStatus status){
         this.status = status;
     }
 }

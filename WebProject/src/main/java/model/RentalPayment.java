@@ -11,6 +11,10 @@ public class RentalPayment {
     private Date paidDay;
 
     // Constructor
+    public RentalPayment() {
+    }
+
+    
     public RentalPayment(int paymentId, int rentingId, double totalAmount, double commissionAmount, String status, Date paidDay) {
         this.paymentId = paymentId;
         this.rentingId = rentingId;
