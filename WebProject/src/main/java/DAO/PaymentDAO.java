@@ -1,3 +1,5 @@
+package DAO;
+
 import model.RentalPayment;
 import java.sql.Connection;
 import java.sql.ResultSet;

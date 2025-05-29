@@ -58,4 +58,30 @@ public class PropertyDAO {
             return list;
         }
     }
+    
+    public List<Property> getPendingProperties() throws SQLException {
+    String sql = "SELECT * FROM properties WHERE approved_status = 0";
+    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        ResultSet rs = stmt.executeQuery();
+        List<Property> list = new ArrayList<>();
+        while (rs.next()) {
+            Property p = new Property();
+            p.setPropertyId(rs.getInt("property_id"));
+            p.setTitle(rs.getString("title"));
+            p.setTown(rs.getString("town"));
+            p.setPrice(rs.getBigDecimal("price"));
+            p.setApprovedStatus(false);
+            list.add(p);
+        }
+        return list;
+    }
+}
+
+public boolean approveProperty(int propertyId) throws SQLException {
+    String sql = "UPDATE properties SET approved_status = 1 WHERE property_id = ?";
+    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, propertyId);
+        return stmt.executeUpdate() > 0;
+    }
+}
 }
