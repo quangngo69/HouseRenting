@@ -22,7 +22,7 @@ public class Property {
         }    
         
     }
-   private int propertyId;
+    private int propertyId;
     private int landlordId;
     private String title;
     private String description;

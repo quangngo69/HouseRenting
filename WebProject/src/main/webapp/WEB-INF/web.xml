@@ -1,11 +1,169 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
-   version="6.0">
+<web-app xmlns="http://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://jakarta.ee/xml/ns/jakartaee
+                             http://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+
+    <!-- Welcome Page -->
+    <welcome-file-list>
+        <welcome-file>login.jsp</welcome-file>
+    </welcome-file-list>
+
+    <!-- Session Timeout -->
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>30</session-timeout> <!-- in minutes -->
     </session-config>
+
+    <!-- User Management -->
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>controller.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/RegisterServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>controller.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>controller.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/LogoutServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>controller.ChangePasswordServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/ChangePasswordServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Property Management -->
+    <servlet>
+        <servlet-name>AddPropertyServlet</servlet-name>
+        <servlet-class>controller.AddPropertyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddPropertyServlet</servlet-name>
+        <url-pattern>/AddPropertyServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditPropertyServlet</servlet-name>
+        <servlet-class>controller.EditPropertyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditPropertyServlet</servlet-name>
+        <url-pattern>/EditPropertyServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeletePropertyServlet</servlet-name>
+        <servlet-class>controller.DeletePropertyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeletePropertyServlet</servlet-name>
+        <url-pattern>/DeletePropertyServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Image Upload -->
+    <servlet>
+        <servlet-name>UploadImageServlet</servlet-name>
+        <servlet-class>controller.UploadImageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadImageServlet</servlet-name>
+        <url-pattern>/UploadImageServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteImageServlet</servlet-name>
+        <servlet-class>controller.DeleteImageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteImageServlet</servlet-name>
+        <url-pattern>/DeleteImageServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Booking -->
+    <servlet>
+        <servlet-name>BookPropertyServlet</servlet-name>
+        <servlet-class>controller.BookPropertyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BookPropertyServlet</servlet-name>
+        <url-pattern>/BookPropertyServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Admin Approval -->
+    <servlet>
+        <servlet-name>ApprovePropertyServlet</servlet-name>
+        <servlet-class>controller.ApprovePropertyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ApprovePropertyServlet</servlet-name>
+        <url-pattern>/ApprovePropertyServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RejectPropertyServlet</servlet-name>
+        <servlet-class>controller.RejectPropertyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RejectPropertyServlet</servlet-name>
+        <url-pattern>/RejectPropertyServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Filter / Search / Sort -->
+    <servlet>
+        <servlet-name>SearchServlet</servlet-name>
+        <servlet-class>controller.SearchServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SearchServlet</servlet-name>
+        <url-pattern>/SearchServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SortServlet</servlet-name>
+        <servlet-class>controller.SortServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SortServlet</servlet-name>
+        <url-pattern>/SortServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Tenant/Booking View -->
+    <servlet>
+        <servlet-name>ViewTenantsServlet</servlet-name>
+        <servlet-class>controller.ViewTenantsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewTenantsServlet</servlet-name>
+        <url-pattern>/ViewTenantsServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TenantDashboardServlet</servlet-name>
+        <servlet-class>controller.TenantDashboardServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TenantDashboardServlet</servlet-name>
+        <url-pattern>/TenantDashboardServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>
