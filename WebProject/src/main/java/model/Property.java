@@ -18,8 +18,11 @@ public class Property {
         DUPLEX,
         BUNGAGLOW;
         public static PropertyType fromString(String dbValue) {
+            if (dbValue == null) {
+                return null; // or return a default, e.g., TENANT;
+            }
             return PropertyType.valueOf(dbValue.toUpperCase());
-        }    
+        }  
         
     }
     private int propertyId;

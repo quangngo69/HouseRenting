@@ -8,7 +8,7 @@
     Username: <input type="text" name="username" required /><br/>
     Password: <input type="password" name="password" required /><br/>
     User Type:
-    <select name="usertype">
+    <select name="userType">
         <option value="TENANT">Tenant</option>
         <option value="LANDLORD">Landlord</option>
     </select><br/>

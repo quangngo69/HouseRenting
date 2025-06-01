@@ -13,6 +13,9 @@ public class User {
         LANDLORD,
         TENANT;
         public static UserType fromString(String dbValue) {
+            if (dbValue == null) {
+                return null; // or return a default, e.g., TENANT;
+            }
             return UserType.valueOf(dbValue.toUpperCase());
         }
         

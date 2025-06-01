@@ -14,6 +14,9 @@ public class Renting {
         CANCELLED;
 
         public static RentingStatus fromString(String dbValue) {
+            if (dbValue == null) {
+                return null; // or return a default, e.g., TENANT;
+            }
             return RentingStatus.valueOf(dbValue.toUpperCase());
         }
     }
