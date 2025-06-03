@@ -1,5 +1,3 @@
-
-
 package DAO;
 
 import model.Property;
@@ -11,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PropertyDAO {
+
     private Connection conn;
 
     public PropertyDAO(Connection conn) {
@@ -58,30 +57,60 @@ public class PropertyDAO {
             return list;
         }
     }
-    
-    public List<Property> getPendingProperties() throws SQLException {
-    String sql = "SELECT * FROM properties WHERE approved_status = 0";
-    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-        ResultSet rs = stmt.executeQuery();
-        List<Property> list = new ArrayList<>();
-        while (rs.next()) {
-            Property p = new Property();
-            p.setPropertyId(rs.getInt("property_id"));
-            p.setTitle(rs.getString("title"));
-            p.setTown(rs.getString("town"));
-            p.setPrice(rs.getBigDecimal("price"));
-            p.setApprovedStatus(false);
-            list.add(p);
-        }
-        return list;
-    }
-}
 
-public boolean approveProperty(int propertyId) throws SQLException {
-    String sql = "UPDATE properties SET approved_status = 1 WHERE property_id = ?";
-    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setInt(1, propertyId);
-        return stmt.executeUpdate() > 0;
+    public List<Property> getPendingProperties() throws SQLException {
+        String sql = "SELECT * FROM properties WHERE approved_status = 0";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            List<Property> list = new ArrayList<>();
+            while (rs.next()) {
+                Property p = new Property();
+                p.setPropertyId(rs.getInt("property_id"));
+                p.setTitle(rs.getString("title"));
+                p.setTown(rs.getString("town"));
+                p.setPrice(rs.getBigDecimal("price"));
+                p.setApprovedStatus(false);
+                list.add(p);
+            }
+            return list;
+        }
     }
-}
+
+    public boolean approveProperty(int propertyId) throws SQLException {
+        String sql = "UPDATE properties SET approved_status = 1 WHERE property_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, propertyId);
+            return stmt.executeUpdate() > 0;
+        }
+    }
+
+    public List<Property> getAllProperties() throws SQLException {
+        List<Property> properties = new ArrayList<>();
+        String sql = "SELECT * FROM properties WHERE approved_status = 1 AND status = 1";
+        try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Property p = new Property();
+                p.setPropertyId(rs.getInt("property_id"));
+                p.setLandlordId(rs.getInt("landlord_id"));
+                p.setTitle(rs.getString("title"));
+                p.setDescription(rs.getString("description"));
+                p.setPrice(rs.getBigDecimal("price"));
+                p.setDistrict(rs.getString("district"));
+                p.setStreet(rs.getString("street"));
+                p.setTown(rs.getString("town"));
+                p.setArea(rs.getFloat("area"));
+                p.setPropertyType(rs.getString("property_type"));
+                p.setBathroomCount(rs.getInt("bathroom_count"));
+                p.setBedroomCount(rs.getInt("bedroom_count"));
+                p.setApprovedStatus(rs.getBoolean("approved_status"));
+                p.setCreateDate(rs.getDate("create_date"));
+                p.setAvailableFrom(rs.getDate("available_from"));
+                p.setStatus(rs.getBoolean("status"));
+
+                properties.add(p);
+            }
+        }
+        return properties;
+    }
 }
