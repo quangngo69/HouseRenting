@@ -5,15 +5,24 @@
     <head><title>Admin Approval</title></head>
     <body>
         <h2>Pending Property Approvals</h2>
+
         <%
             List<Property> pending = (List<Property>) request.getAttribute("pendingProperties");
-            for (Property p : pending) {
+            if (pending != null && !pending.isEmpty()) {
+                for (Property p : pending) {
         %>
         <div>
             <h3><%= p.getTitle() %></h3>
             <a href="ApprovePropertyServlet?id=<%= p.getPropertyId() %>">Approve</a>
             <a href="RejectPropertyServlet?id=<%= p.getPropertyId() %>">Reject</a>
         </div>
-        <% } %>
+        <%
+                }
+            } else {
+        %>
+        <p>No pending properties found.</p>
+        <%
+            }
+        %>
     </body>
 </html>

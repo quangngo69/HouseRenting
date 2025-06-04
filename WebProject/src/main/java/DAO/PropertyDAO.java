@@ -113,4 +113,43 @@ public class PropertyDAO {
         }
         return properties;
     }
+
+    public Property getPropertyById(int propertyId) throws SQLException {
+        String sql = "SELECT * FROM properties WHERE property_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, propertyId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Property p = new Property();
+                p.setPropertyId(rs.getInt("property_id"));
+                p.setTitle(rs.getString("title"));
+                p.setDescription(rs.getString("description"));
+                p.setPrice(rs.getBigDecimal("price"));
+                p.setTown(rs.getString("town"));
+                p.setPropertyType(rs.getString("property_type"));
+                return p;
+            }
+            return null;
+        }
+    }
+
+    public boolean updateProperty(Property property) throws SQLException {
+        String sql = "UPDATE properties SET title = ?, description = ?, price = ?, town = ?, property_type = ? WHERE property_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, property.getTitle());
+            stmt.setString(2, property.getDescription());
+            stmt.setBigDecimal(3, property.getPrice());
+            stmt.setString(4, property.getTown());
+            stmt.setString(5, property.getPropertyType());
+            stmt.setInt(6, property.getPropertyId());
+            return stmt.executeUpdate() > 0;
+        }
+    }
+    public boolean deleteProperty(int propertyId) throws SQLException {
+        String sql = "DELETE FROM properties WHERE property_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, propertyId);
+            return stmt.executeUpdate() > 0;
+        }
+    }
 }

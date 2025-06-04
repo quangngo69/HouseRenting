@@ -140,7 +140,7 @@ public class Property {
         return bedroomCount;
     }
 
-    public boolean isApprovedStatus() {
+    public boolean getApprovedStatus() {
         return approvedStatus;
     }
 
@@ -152,7 +152,7 @@ public class Property {
         return availableFrom;
     }
 
-    public boolean isStatus() {
+    public boolean getStatus() {
         return status;
     }
 
