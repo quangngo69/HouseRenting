@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.math.BigDecimal;
 
 
 
@@ -47,4 +48,25 @@ public class UserDAO {
             return null;
         }
     }
+    
+    public BigDecimal getUserBalance(int userId) throws SQLException {
+    String sql = "SELECT balance FROM users WHERE user_id = ?";
+    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, userId);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getBigDecimal("balance");
+        }
+    }
+    return BigDecimal.ZERO;
+}
+
+public boolean updateUserBalance(int userId, BigDecimal newBalance) throws SQLException {
+    String sql = "UPDATE users SET balance = ? WHERE user_id = ?";
+    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setBigDecimal(1, newBalance);
+        stmt.setInt(2, userId);
+        return stmt.executeUpdate() > 0;
+    }
+}
 }

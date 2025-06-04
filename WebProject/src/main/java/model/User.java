@@ -5,22 +5,24 @@
 package model;
 
 import java.sql.Date;
-
+import java.math.BigDecimal;
 
 public class User {
+
     public enum UserType {
         ADMIN,
         LANDLORD,
         TENANT;
+
         public static UserType fromString(String dbValue) {
             if (dbValue == null) {
                 return null; // or return a default, e.g., TENANT;
             }
             return UserType.valueOf(dbValue.toUpperCase());
         }
-        
+
     }
-    
+
     private int userId;
     private String fullname;
     private String username;
@@ -29,7 +31,8 @@ public class User {
     private String password;
     private Date joinDate;
     private UserType userType;
-    
+    private BigDecimal balance;
+
     public User() {
         userId = 0;
         fullname = "";
@@ -40,8 +43,8 @@ public class User {
         joinDate = null;
         userType = null;
     }
-    
-    public User(int userId, String fullname, String username, String email, String phone, String password, Date joinDate, UserType userType) {
+
+    public User(int userId, String fullname, String username, String email, String phone, String password, Date joinDate, UserType userType, BigDecimal balance) {
         this.userId = userId;
         this.fullname = fullname;
         this.username = username;
@@ -50,29 +53,78 @@ public class User {
         this.password = password;
         this.joinDate = joinDate;
         this.userType = userType;
+        this.balance = balance;
     }
-    
-    public int getUserId() { return userId; }
-    public void setUserId (int userId) { this.userId = userId; }
-    
-    public String getFullname() { return fullname; }
-    public void setFullname (String fullname) { this.fullname = fullname; }
-    
-    public String getUsername() { return username; }
-    public void setUsername (String username) { this.username = username; }
-    
-    public String getEmail() { return email; }
-    public void setEmail (String email) { this.email = email; }
-    
-    public String getPhone() { return phone; }
-    public void setPhone (String phone) { this.phone = phone; }
-    
-    public String getPassword() { return password; }
-    public void setPassword (String password) { this.password = password; }
-    
-    public Date getJoinDate() { return joinDate; }
-    public void setJoinDate (Date joinDate) { this.joinDate = joinDate; }
-    
-    public UserType getUserType() { return userType; }
-    public void setUserType (UserType userType) { this.userType = userType; }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Date getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(Date joinDate) {
+        this.joinDate = joinDate;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
 }

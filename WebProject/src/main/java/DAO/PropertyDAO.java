@@ -17,7 +17,7 @@ public class PropertyDAO {
     }
 
     public boolean addProperty(Property property) throws SQLException {
-        String sql = "INSERT INTO properties (landlord_id, title, description, price, district, street, town, area, property_type, bathroom_count, bedroom_count, approved_status, create_date, available_from, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO properties (landlord_id, title, description, price, district, street, town, area, property_type, bathroom_count, bedroom_count, approved_status, create_date, available_from, status, imageFilename) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, property.getLandlordId());
             stmt.setString(2, property.getTitle());
@@ -34,6 +34,7 @@ public class PropertyDAO {
             stmt.setDate(13, new java.sql.Date(System.currentTimeMillis()));
             stmt.setDate(14, new java.sql.Date(property.getAvailableFrom().getTime()));
             stmt.setBoolean(15, true);
+            stmt.setString(16, property.getImageFilename());
             return stmt.executeUpdate() > 0;
         }
     }
@@ -69,7 +70,7 @@ public class PropertyDAO {
                 p.setTitle(rs.getString("title"));
                 p.setTown(rs.getString("town"));
                 p.setPrice(rs.getBigDecimal("price"));
-                p.setApprovedStatus(false);
+                p.setApprovedStatus(rs.getBoolean("approved_status"));
                 list.add(p);
             }
             return list;
@@ -151,5 +152,43 @@ public class PropertyDAO {
             stmt.setInt(1, propertyId);
             return stmt.executeUpdate() > 0;
         }
+    }
+    
+    public boolean markPropertyAsBooked(int propertyId) throws SQLException {
+    String sql = "UPDATE properties SET status = 0 WHERE property_id = ?";
+    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, propertyId);
+        return stmt.executeUpdate() > 0;
+    }
+}
+    
+    public List<Property> getAllBookedProperties() throws SQLException {
+        List<Property> properties = new ArrayList<>();
+        String sql = "SELECT * FROM properties WHERE status = 0";
+        try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Property p = new Property();
+                p.setPropertyId(rs.getInt("property_id"));
+                p.setLandlordId(rs.getInt("landlord_id"));
+                p.setTitle(rs.getString("title"));
+                p.setDescription(rs.getString("description"));
+                p.setPrice(rs.getBigDecimal("price"));
+                p.setDistrict(rs.getString("district"));
+                p.setStreet(rs.getString("street"));
+                p.setTown(rs.getString("town"));
+                p.setArea(rs.getFloat("area"));
+                p.setPropertyType(rs.getString("property_type"));
+                p.setBathroomCount(rs.getInt("bathroom_count"));
+                p.setBedroomCount(rs.getInt("bedroom_count"));
+                p.setApprovedStatus(rs.getBoolean("approved_status"));
+                p.setCreateDate(rs.getDate("create_date"));
+                p.setAvailableFrom(rs.getDate("available_from"));
+                p.setStatus(rs.getBoolean("status"));
+
+                properties.add(p);
+            }
+        }
+        return properties;
     }
 }

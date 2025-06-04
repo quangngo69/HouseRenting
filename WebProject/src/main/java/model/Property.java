@@ -6,24 +6,27 @@ package model;
 
 import java.sql.Date;
 import java.math.BigDecimal;
+
 /**
  *
  * @author DELL
  */
 public class Property {
+
     public enum PropertyType {
         APARTMENT,
         HOUSE,
         TOWNHOUSE,
         DUPLEX,
         BUNGAGLOW;
+
         public static PropertyType fromString(String dbValue) {
             if (dbValue == null) {
                 return null; // or return a default, e.g., TENANT;
             }
             return PropertyType.valueOf(dbValue.toUpperCase());
-        }  
-        
+        }
+
     }
     private int propertyId;
     private int landlordId;
@@ -47,10 +50,10 @@ public class Property {
     }
 
     // Constructor with all fields
-    public Property(int propertyId, int landlordId, String title, String description, 
-                   BigDecimal price, String district, String street, String town, 
-                   float area, String propertyType, int bathroomCount, int bedroomCount, 
-                   boolean approvedStatus, Date createDate, Date availableFrom, boolean status) {
+    public Property(int propertyId, int landlordId, String title, String description,
+            BigDecimal price, String district, String street, String town,
+            float area, String propertyType, int bathroomCount, int bedroomCount,
+            boolean approvedStatus, Date createDate, Date availableFrom, boolean status) {
         this.propertyId = propertyId;
         this.landlordId = landlordId;
         this.title = title;
@@ -70,10 +73,10 @@ public class Property {
     }
 
     // Constructor without propertyId (for new properties)
-    public Property(int landlordId, String title, String description, BigDecimal price, 
-                   String district, String street, String town, float area, 
-                   String propertyType, int bathroomCount, int bedroomCount, 
-                   boolean approvedStatus, Date createDate, Date availableFrom, boolean status) {
+    public Property(int landlordId, String title, String description, BigDecimal price,
+            String district, String street, String town, float area,
+            String propertyType, int bathroomCount, int bedroomCount,
+            boolean approvedStatus, Date createDate, Date availableFrom, boolean status) {
         this.landlordId = landlordId;
         this.title = title;
         this.description = description;
@@ -220,5 +223,25 @@ public class Property {
     public void setStatus(boolean status) {
         this.status = status;
     }
-}    
 
+    private String imagePath;
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    private String imageFilename;
+
+    public String getImageFilename() {
+        return imageFilename;
+    }
+
+    public void setImageFilename(String imageFilename) {
+        this.imageFilename = imageFilename;
+    }
+
+}

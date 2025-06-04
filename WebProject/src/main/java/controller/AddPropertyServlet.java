@@ -1,24 +1,34 @@
 package controller;
 
-import model.Property;
-import DAO.DBConnection;
-import DAO.PropertyDAO;
-import model.User;
+import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.SQLException;
+
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpSession;
-import java.sql.Date;
-import java.math.BigDecimal;
+import jakarta.servlet.http.Part;
+
+import model.Property;
+import model.User;
+import DAO.DBConnection;
+import DAO.PropertyDAO;
 
 @WebServlet("/addProperty")
-@MultipartConfig
+@MultipartConfig(fileSizeThreshold = 1024 * 1024,    // 1MB
+                 maxFileSize = 1024 * 1024 * 5,      // 5MB
+                 maxRequestSize = 1024 * 1024 * 10)  // 10MB
 public class AddPropertyServlet extends HttpServlet {
 
     private String safeParam(HttpServletRequest request, String name) {
@@ -71,6 +81,38 @@ public class AddPropertyServlet extends HttpServlet {
             property.setAvailableFrom(new Date(System.currentTimeMillis()));
         }
 
+        // ✅ Image Upload Handling
+        Part imagePart = request.getPart("propertyImage");
+        String fileName = Paths.get(imagePart.getSubmittedFileName()).getFileName().toString();
+
+        if (fileName != null && !fileName.isEmpty()) {
+            // ✅ Runtime path (deployed build)
+            String runtimeUploadPath = getServletContext().getRealPath("/images/uploads");
+
+            // ✅ Source code path (for GitHub/IDE)
+            String projectUploadPath = "C:/Users/huynh/OneDrive/Documents/GitHub/HouseRenting/WebProject/src/main/webapp/images/uploads";
+
+            // Create both folders if they don't exist
+            new File(runtimeUploadPath).mkdirs();
+            new File(projectUploadPath).mkdirs();
+
+            // Save to runtime build folder
+            try (InputStream input = imagePart.getInputStream()) {
+                Files.copy(input, new File(runtimeUploadPath, fileName).toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            // Save to source code folder
+            try (InputStream input2 = imagePart.getInputStream()) {
+                Files.copy(input2, new File(projectUploadPath, fileName).toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            System.out.println("Uploaded to: " + runtimeUploadPath + " and " + projectUploadPath);
+
+            // ✅ Save filename to property object
+            property.setImageFilename(fileName);
+        }
+
+        // ✅ Save property to database
         try (Connection conn = DBConnection.getConnection()) {
             PropertyDAO dao = new PropertyDAO(conn);
             boolean success = dao.addProperty(property);

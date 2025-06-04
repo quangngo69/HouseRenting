@@ -45,7 +45,8 @@
                 <option value="BUNGAGLOW">Bungalow</option>
             </select><br/>
 
-            Image: <input type="file" name="propertyImage"/><br/>
+            <label>Image:</label>
+            <input type="file" name="propertyImage" accept="image/*" required /><br/><br/>
 
             <input type="submit" value="Add Property"/>
         </form>
@@ -53,10 +54,10 @@
         <% String msg = (String) request.getAttribute("message"); %>
         <script>
             <% if ("success".equals(msg)) { %>
-                alert("Successfully added");
+            alert("Successfully added");
             <% } else if ("fail".equals(msg)) { %>
-                alert("Failed to add");
-            <% } %>
+            alert("Failed to add");
+            <% }%>
         </script>
     </body>
 </html>

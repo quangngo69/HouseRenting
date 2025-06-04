@@ -12,13 +12,21 @@
                 for (Property p : pending) {
         %>
         <div>
-            <h3><%= p.getTitle() %></h3>
-            <a href="ApprovePropertyServlet?id=<%= p.getPropertyId() %>">Approve</a>
-            <a href="RejectPropertyServlet?id=<%= p.getPropertyId() %>">Reject</a>
+            <h3><%= p.getTitle()%></h3>
+            <form method="post" action="approveProperty" style="display:inline;">
+                <input type="hidden" name="propertyId" value="<%= p.getPropertyId()%>"/>
+                <input type="submit" value="Approve"/>
+            </form>
+
+            <form method="post" action="rejectProperty" style="display:inline;">
+                <input type="hidden" name="propertyId" value="<%= p.getPropertyId()%>"/>
+                <input type="submit" value="Reject"/>
+            </form>
+
         </div>
         <%
-                }
-            } else {
+            }
+        } else {
         %>
         <p>No pending properties found.</p>
         <%
