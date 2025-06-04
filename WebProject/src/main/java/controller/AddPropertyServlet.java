@@ -1,4 +1,5 @@
 package controller;
+
 import model.Property;
 import DAO.DBConnection;
 import DAO.PropertyDAO;
@@ -11,39 +12,74 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import java.math.BigDecimal;
 
-
 @WebServlet("/addProperty")
+@MultipartConfig
 public class AddPropertyServlet extends HttpServlet {
+
+    private String safeParam(HttpServletRequest request, String name) {
+        String val = request.getParameter(name);
+        return val != null ? val.trim() : "";
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User landlord = (User) session.getAttribute("user");
 
         Property property = new Property();
         property.setLandlordId(landlord.getUserId());
-        property.setTitle(request.getParameter("title"));
-        property.setDescription(request.getParameter("description"));
-        property.setPrice(new BigDecimal(request.getParameter("price")));
-        property.setDistrict(request.getParameter("district"));
-        property.setStreet(request.getParameter("street"));
-        property.setTown(request.getParameter("town"));
-        property.setArea(Float.parseFloat(request.getParameter("area")));
-        property.setPropertyType(request.getParameter("propertyType"));
-        property.setBathroomCount(Integer.parseInt(request.getParameter("bathroomCount")));
-        property.setBedroomCount(Integer.parseInt(request.getParameter("bedroomCount")));
-        property.setAvailableFrom(Date.valueOf(request.getParameter("availableFrom")));
+        property.setTitle(safeParam(request, "title"));
+        property.setDescription(safeParam(request, "description"));
+
+        try {
+            property.setPrice(new BigDecimal(safeParam(request, "price")));
+        } catch (NumberFormatException e) {
+            property.setPrice(BigDecimal.ZERO);
+        }
+
+        property.setDistrict(safeParam(request, "district"));
+        property.setStreet(safeParam(request, "street"));
+        property.setTown(safeParam(request, "town"));
+
+        try {
+            property.setArea(Float.parseFloat(safeParam(request, "area")));
+        } catch (NumberFormatException e) {
+            property.setArea(0.0f);
+        }
+
+        property.setPropertyType(safeParam(request, "propertyType"));
+
+        try {
+            property.setBathroomCount(Integer.parseInt(safeParam(request, "bathroomCount")));
+        } catch (NumberFormatException e) {
+            property.setBathroomCount(0);
+        }
+
+        try {
+            property.setBedroomCount(Integer.parseInt(safeParam(request, "bedroomCount")));
+        } catch (NumberFormatException e) {
+            property.setBedroomCount(0);
+        }
+
+        try {
+            property.setAvailableFrom(Date.valueOf(safeParam(request, "availableFrom")));
+        } catch (IllegalArgumentException e) {
+            property.setAvailableFrom(new Date(System.currentTimeMillis()));
+        }
 
         try (Connection conn = DBConnection.getConnection()) {
             PropertyDAO dao = new PropertyDAO(conn);
-            dao.addProperty(property);
-            response.sendRedirect("landlordDashboard.jsp");
+            boolean success = dao.addProperty(property);
+            request.setAttribute("message", success ? "success" : "fail");
+            request.getRequestDispatcher("/views/addProperty.jsp").forward(request, response);
         } catch (SQLException e) {
-            throw new ServletException(e);
+            e.printStackTrace();
+            request.setAttribute("message", "fail");
+            request.getRequestDispatcher("/views/addProperty.jsp").forward(request, response);
         }
     }
-    
-    
 }
