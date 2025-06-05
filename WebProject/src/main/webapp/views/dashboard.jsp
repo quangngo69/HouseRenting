@@ -5,9 +5,30 @@
     User user = (User) session.getAttribute("user");
     String username = user != null ? user.getUsername() : "Guest";
     String usertype = user != null && user.getUserType() != null ? user.getUserType().name() : "Unknown";
+
+    if ("ADMIN".equals(usertype)) {
+%>
+<jsp:include page="/views/includes/header-admin.jsp" />
+<%
+} else if ("LANDLORD".equals(usertype)) {
+%>
+<jsp:include page="/views/includes/header-landlord.jsp" />
+<%
+} else if ("TENANT".equals(usertype)) {
+%>
+<jsp:include page="/views/includes/header-tenant.jsp" />
+<%
+} else {
+%>
+<jsp:include page="/views/includes/header.jsp" /> <%-- fallback or guest header --%>
+<%
+    }
 %>
 <html>
-    <head><title>Dashboard</title></head>
+    <head>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/static/style.css" />
+        <title>Dashboard</title>
+    </head>
     <body>
         <h2>Welcome, <%= username%> (<%= usertype%>)</h2>
 
@@ -25,3 +46,5 @@
         <a href="${pageContext.request.contextPath}/LogoutServlet">Logout</a>
     </body>
 </html>
+
+<jsp:include page="/views/includes/footer.jsp" />
