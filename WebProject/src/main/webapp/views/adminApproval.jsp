@@ -2,7 +2,10 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="java.util.List, model.Property" %>
 <html>
-    <head><title>Admin Approval</title></head>
+    <head>
+        <title>Admin Approval</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/static/style2.css" />
+    </head>
     <body>
         <h2>Pending Property Approvals</h2>
 
@@ -12,7 +15,10 @@
                 for (Property p : pending) {
         %>
         <div>
-            <h3><%= p.getTitle()%></h3>
+            <h1><%= p.getTitle()%></h1>
+            <h2><%= p.getArea()%></h2>
+            <h2><%= p.getPropertyType()%></h2>
+            <h2><%= p.getPrice()%></h2>
             <form method="post" action="approveProperty" style="display:inline;">
                 <input type="hidden" name="propertyId" value="<%= p.getPropertyId()%>"/>
                 <input type="submit" value="Approve"/>
@@ -32,5 +38,7 @@
         <%
             }
         %>
+        <a href="<%= request.getContextPath() %>/views/dashboard.jsp">Back to Dashboard</a>
+
     </body>
 </html>

@@ -5,7 +5,7 @@
     User user = (User) session.getAttribute("user");
     String username = user != null ? user.getUsername() : "Admin";
 %>
-<div class="header">
+<header>
     <div class="container">
         <div class="header-info">
             <h1 class="header-headline">Welcome, <%= username %></h1>
@@ -16,4 +16,4 @@
                style="color: white; text-decoration: none; font-weight: bold;">Logout</a>
         </div>
     </div>
-</div>
+</header>

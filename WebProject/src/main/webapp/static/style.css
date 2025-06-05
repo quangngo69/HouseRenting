@@ -11,6 +11,14 @@ html, body {
     color: #333;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    margin: auto;
+    padding: 0;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 img, picture, video, canvas, svg {
     display: block;
@@ -90,26 +98,28 @@ nav .container {
     font-size: 1.5rem;
     cursor: pointer;
 } /* Header styles */
-.header {
+header {
     width: 100%;
-    max-width: 1980px;
-    max-height: 150px;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./images/banner1.png');
+    max-width: 100%;
+    max-height: 20vh;
+    height: 100vh;
+    background-color: rgb(244, 164, 33);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
 }
-.header .container {
+header .container {
     width: 90%;
     margin: 0 auto;
-    height: 140px;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .header-info {
     width: 90%;
+    height: 90px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -118,22 +128,21 @@ nav .container {
     color: #fff;
 }
 .header-headline {
-    font-size: 2rem;
-    font-weight: 700;
-    line-height: 1.1;
-    text-transform: capitalize;
-    padding: 0.5rem 0;
+    font-size: 4rem;
+    font-weight: 900;
+    /*text-transform: capitalize;*/
+    padding: 1rem 0;
     animation: fadeIn 1s ease-in-out;
 }
 .header-subtitle {
-    font-size: 1rem;
-    width: 80%;
-    color: #f1f1f1;
+    font-size: 1.5rem;
+    width: 60%;
     text-transform: capitalize;
-    padding-bottom: 0.5rem;
+    padding-bottom: 2rem;
     opacity: 0.9;
+    margin-top: -40px;
+    animation: fadeIn 1s ease-in-out;
 }
-
 .cta {
     width: 200px;
     background: #ff6f3d;
@@ -264,6 +273,8 @@ form .container {
     border-radius: 15px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    height: 300px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: all 0.3s ease;
@@ -338,11 +349,37 @@ footer {
     color: #fff;
     padding: 2rem 0;
     text-align: center;
+    margin-bottom: 0;
+    margin-top: auto;
 }
+
 footer p {
     font-size: 0.9rem;
     opacity: 0.8;
-} /* Animations */
+    margin: 0;
+}
+/* Approve button style */
+.approve-btn {
+    background-color: #f5a623; /* Orange, matching the screenshot */
+    color: white;
+    border: 2px solid #d18b1e; /* Slightly darker orange border for contrast */
+}
+
+.approve-btn:hover {
+    background-color: #e6951a; /* Slightly darker orange on hover */
+}
+
+/* Reject button style */
+.reject-btn {
+    background-color: #ff4d4d; /* Red, matching the screenshot */
+    color: white;
+    border: 2px solid #cc0000; /* Slightly darker red border for contrast */
+}
+
+.reject-btn:hover {
+    background-color: #e60000; /* Slightly darker red on hover */
+}
+/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;

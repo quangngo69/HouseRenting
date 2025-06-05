@@ -68,9 +68,18 @@ public class PropertyDAO {
                 Property p = new Property();
                 p.setPropertyId(rs.getInt("property_id"));
                 p.setTitle(rs.getString("title"));
-                p.setTown(rs.getString("town"));
+                p.setDescription(rs.getString("description"));
                 p.setPrice(rs.getBigDecimal("price"));
-                p.setApprovedStatus(rs.getBoolean("approved_status"));
+                p.setTown(rs.getString("town"));
+                p.setPropertyType(rs.getString("property_type"));
+                p.setStreet(rs.getString("street"));
+                p.setDistrict(rs.getString("district"));
+                p.setArea(rs.getFloat("area"));
+                p.setBedroomCount(rs.getInt("bedroom_count"));
+                p.setBathroomCount(rs.getInt("bathroom_count"));
+                p.setAvailableFrom(rs.getDate("available_from"));
+                p.setCreateDate(rs.getDate("create_date"));
+                p.setImageFilename(rs.getString("imageFilename"));
                 list.add(p);
             }
             return list;
@@ -128,6 +137,14 @@ public class PropertyDAO {
                 p.setPrice(rs.getBigDecimal("price"));
                 p.setTown(rs.getString("town"));
                 p.setPropertyType(rs.getString("property_type"));
+                p.setStreet(rs.getString("street"));
+                p.setDistrict(rs.getString("district"));
+                p.setArea(rs.getFloat("area"));
+                p.setBedroomCount(rs.getInt("bedroom_count"));
+                p.setBathroomCount(rs.getInt("bathroom_count"));
+                p.setAvailableFrom(rs.getDate("available_from"));
+                p.setCreateDate(rs.getDate("create_date"));
+                p.setImageFilename(rs.getString("imageFilename"));
                 return p;
             }
             return null;
@@ -146,6 +163,7 @@ public class PropertyDAO {
             return stmt.executeUpdate() > 0;
         }
     }
+
     public boolean deleteProperty(int propertyId) throws SQLException {
         String sql = "DELETE FROM properties WHERE property_id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -153,15 +171,15 @@ public class PropertyDAO {
             return stmt.executeUpdate() > 0;
         }
     }
-    
+
     public boolean markPropertyAsBooked(int propertyId) throws SQLException {
-    String sql = "UPDATE properties SET status = 0 WHERE property_id = ?";
-    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setInt(1, propertyId);
-        return stmt.executeUpdate() > 0;
+        String sql = "UPDATE properties SET status = 0 WHERE property_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, propertyId);
+            return stmt.executeUpdate() > 0;
+        }
     }
-}
-    
+
     public List<Property> getAllBookedProperties() throws SQLException {
         List<Property> properties = new ArrayList<>();
         String sql = "SELECT * FROM properties WHERE status = 0";

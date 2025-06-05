@@ -8,6 +8,7 @@
 </head>
 <body>
     <h2>Available Properties</h2>
+    <a href="${pageContext.request.contextPath}/views/dashboard.jsp">Back to Dashboard</a>
 
     <form method="get" action="propertyList">
         City: <input type="text" name="city"/>
