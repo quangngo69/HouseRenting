@@ -50,7 +50,7 @@
 
             <input type="submit" value="Add Property"/>
         </form>
-        <a href="dashboard.jsp">Back to Dashboard</a>
+        <a href="${pageContext.request.contextPath}/views/dashboard.jsp">Back to Dashboard</a>
 
         <% String msg = (String) request.getAttribute("message"); %>
         <script>
