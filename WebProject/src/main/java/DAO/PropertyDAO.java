@@ -172,13 +172,15 @@ public class PropertyDAO {
         }
     }
 
-    public boolean markPropertyAsBooked(int propertyId) throws SQLException {
-        String sql = "UPDATE properties SET status = 0 WHERE property_id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, propertyId);
-            return stmt.executeUpdate() > 0;
-        }
+    public boolean markPropertyAsBooked(int propertyId, int userId) throws SQLException {
+    String sql = "UPDATE properties SET status = 0, user_id = ? WHERE property_id = ?";
+    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, userId);
+        stmt.setInt(2, propertyId);
+        return stmt.executeUpdate() > 0;
     }
+}
+
 
     public List<Property> getAllBookedProperties() throws SQLException {
         List<Property> properties = new ArrayList<>();
@@ -209,4 +211,66 @@ public class PropertyDAO {
         }
         return properties;
     }
+
+    public List<Property> getBookedPropertiesByTenant(int tenantId) throws SQLException {
+        String sql = "SELECT p.* FROM properties p "
+                + "JOIN renting r ON p.property_id = r.property_id "
+                + "WHERE r.tenant_id = ? AND p.status = 0";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, tenantId);
+            ResultSet rs = stmt.executeQuery();
+            List<Property> list = new ArrayList<>();
+            while (rs.next()) {
+                Property p = new Property();
+                p.setPropertyId(rs.getInt("property_id"));
+                p.setTitle(rs.getString("title"));
+                p.setDescription(rs.getString("description"));
+                p.setPrice(rs.getBigDecimal("price"));
+                p.setTown(rs.getString("town"));
+                p.setDistrict(rs.getString("district"));
+                p.setStreet(rs.getString("street"));
+                p.setImageFilename(rs.getString("imageFilename"));
+                p.setPropertyType(rs.getString("property_type"));
+                list.add(p);
+            }
+            return list;
+        }
+    }
+
+    public List<Property> getPropertiesBookedByTenant(int tenantId) throws SQLException {
+        String sql = "SELECT * FROM properties WHERE status = 0 AND user_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, tenantId);
+            ResultSet rs = stmt.executeQuery();
+            List<Property> lists = new ArrayList<>();
+            while (rs.next()) {
+                Property p = new Property();
+                p.setPropertyId(rs.getInt("property_id"));
+                p.setTitle(rs.getString("title"));
+                p.setDescription(rs.getString("description"));
+                p.setPrice(rs.getBigDecimal("price"));
+                p.setTown(rs.getString("town"));
+                p.setDistrict(rs.getString("district"));
+                p.setStreet(rs.getString("street"));
+                p.setImageFilename(rs.getString("imageFilename"));
+                p.setPropertyType(rs.getString("property_type"));
+                p.setBedroomCount(rs.getInt("bedroom_count"));
+                p.setBathroomCount(rs.getInt("bathroom_count"));
+                p.setStatus(false); // booked
+                lists.add(p);
+            }
+            return lists;
+        }
+    }
+
+    public void assignTenantToProperty(int propertyId, int tenantId) throws SQLException {
+        String sql = "UPDATE properties SET tenant_id = ? WHERE property_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, tenantId);
+            stmt.setInt(2, propertyId);
+            stmt.executeUpdate();
+        }
+    }
+
 }

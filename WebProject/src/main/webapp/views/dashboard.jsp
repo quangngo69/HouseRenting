@@ -4,7 +4,7 @@
 
 <html>
     <head>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/static/style.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/static/style2.css" />
         <title>Dashboard</title>
     </head>
     <body>
@@ -35,18 +35,19 @@
 
 <!--<h2>Welcome, <%= username%> (<%= usertype%>)</h2 //>-->
 
-            <% if ("ADMIN".equals(usertype)) { %>
-            <a href="${pageContext.request.contextPath}/pendingProperties">View Pending Properties</a>
-            <% } else if ("LANDLORD".equals(usertype)) { %>
-            <a href="${pageContext.request.contextPath}/views/addProperty.jsp">Add Property</a><br/>
-            <a href="${pageContext.request.contextPath}/myProperties">My Properties</a>
-            <% } else if ("TENANT".equals(usertype)) { %>
-            <a href="${pageContext.request.contextPath}/propertyList">Browse Properties</a><br/>
-            <a href="${pageContext.request.contextPath}/myRentings">My Renting</a><br/>
-            <a href="${pageContext.request.contextPath}/views/addFunds.jsp">Add Funds</a>
-            <% }%>
+            <div class="main-content">
+                <% if ("ADMIN".equals(usertype)) { %>
+                <a href="${pageContext.request.contextPath}/pendingProperties" class="btn2">View Pending Properties</a>
+                <% } else if ("LANDLORD".equals(usertype)) { %>
+                <a href="${pageContext.request.contextPath}/views/addProperty.jsp" class="btn2">Add Property</a>
+                <a href="${pageContext.request.contextPath}/myProperties" class="btn2">My Properties</a>
+                <% } else if ("TENANT".equals(usertype)) { %>
+                <a href="${pageContext.request.contextPath}/propertyList" class="btn2">Browse Properties</a>
+                <a href="${pageContext.request.contextPath}/myRentings" class="btn2">My Renting</a>
+                <a href="${pageContext.request.contextPath}/views/addFunds.jsp" class="btn2">Add Funds</a>
+                <% }%>
+            </div>
 
-            <a href="${pageContext.request.contextPath}/LogoutServlet">Logout</a>
 
             <jsp:include page="/views/includes/footer.jsp" />
         </div>

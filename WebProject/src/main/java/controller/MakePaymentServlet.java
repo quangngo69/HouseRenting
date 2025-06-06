@@ -35,7 +35,8 @@ public class MakePaymentServlet extends HttpServlet {
                 session.setAttribute("user", tenant);
 
                 // ✅ Mark the property as booked
-                propertyDAO.markPropertyAsBooked(propertyId);
+                propertyDAO.markPropertyAsBooked(propertyId, tenant.getUserId());
+
 
                 // (Optional: Add a payment transaction log table)
 

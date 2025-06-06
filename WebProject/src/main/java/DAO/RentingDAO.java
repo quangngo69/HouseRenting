@@ -30,22 +30,33 @@ public class RentingDAO {
     }
 
     public List<Renting> getBookingsByTenant(int tenantId) throws SQLException {
-        String sql = "SELECT * FROM renting WHERE tenant_id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, tenantId);
-            ResultSet rs = stmt.executeQuery();
-            List<Renting> list = new ArrayList<>();
-            while (rs.next()) {
-                Renting r = new Renting();
-                r.setRentId(rs.getInt("rent_id"));
-                r.setPropertyId(rs.getInt("property_id"));
-                r.setStatus(Renting.RentingStatus.fromString(rs.getString("status")));
-                r.setBookDate(rs.getDate("book_date"));
-                r.setStartDate(rs.getDate("start_date"));
-                r.setEndDate(rs.getDate("end_date"));
-                list.add(r);
-            }
-            return list;
+    String sql = "SELECT r.*, p.title, p.town, p.property_type, p.price, p.imageFilename " +
+                 "FROM renting r JOIN properties p ON r.property_id = p.property_id " +
+                 "WHERE r.tenant_id = ?";
+    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, tenantId);
+        ResultSet rs = stmt.executeQuery();
+        List<Renting> list = new ArrayList<>();
+        while (rs.next()) {
+            Renting r = new Renting();
+            r.setRentId(rs.getInt("rent_id"));
+            r.setPropertyId(rs.getInt("property_id"));
+            r.setStatus(Renting.RentingStatus.fromString(rs.getString("status")));
+            r.setBookDate(rs.getDate("book_date"));
+            r.setStartDate(rs.getDate("start_date"));
+            r.setEndDate(rs.getDate("end_date"));
+
+            // Add these using a map or extend Renting if you prefer
+            r.setExtra("title", rs.getString("title"));
+            r.setExtra("town", rs.getString("town"));
+            r.setExtra("type", rs.getString("property_type"));
+            r.setExtra("price", rs.getBigDecimal("price").toPlainString());
+            r.setExtra("image", rs.getString("imageFilename"));
+
+            list.add(r);
         }
+        return list;
     }
+}
+
 }

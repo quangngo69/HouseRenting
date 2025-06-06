@@ -8,37 +8,41 @@
     </head>
     <body>
         <h2>Pending Property Approvals</h2>
+        <a href="<%= request.getContextPath()%>/views/dashboard.jsp" class="btn">Back to Dashboard</a>
+        <div class="property-grid">
+            <%
+                List<Property> pending = (List<Property>) request.getAttribute("pendingProperties");
+                if (pending != null && !pending.isEmpty()) {
+                    for (Property p : pending) {
+            %>
+            <div class="property-card">
+                <h3><%= p.getTitle()%></h3>
+                <p><strong>Area:</strong> <%= p.getArea()%></p>
+                <p><strong>Type:</strong> <%= p.getPropertyType()%></p>
+                <p><strong>Price:</strong> $<%= p.getPrice()%></p>
 
-        <%
-            List<Property> pending = (List<Property>) request.getAttribute("pendingProperties");
-            if (pending != null && !pending.isEmpty()) {
-                for (Property p : pending) {
-        %>
-        <div>
-            <h1><%= p.getTitle()%></h1>
-            <h2><%= p.getArea()%></h2>
-            <h2><%= p.getPropertyType()%></h2>
-            <h2><%= p.getPrice()%></h2>
-            <form method="post" action="approveProperty" style="display:inline;">
-                <input type="hidden" name="propertyId" value="<%= p.getPropertyId()%>"/>
-                <input type="submit" value="Approve"/>
-            </form>
+                <a href="${pageContext.request.contextPath}/propertyDetails?id=<%= p.getPropertyId()%>" class="btn3">View Details</a>
 
-            <form method="post" action="rejectProperty" style="display:inline;">
-                <input type="hidden" name="propertyId" value="<%= p.getPropertyId()%>"/>
-                <input type="submit" value="Reject"/>
-            </form>
+                <form method="post" action="approveProperty" style="display:inline;">
+                    <input type="hidden" name="propertyId" value="<%= p.getPropertyId()%>"/>
+                    <input type="submit" value="Approve" class="btn3"/>
+                </form>
 
+                <form method="post" action="rejectProperty" style="display:inline;">
+                    <input type="hidden" name="propertyId" value="<%= p.getPropertyId()%>"/>
+                    <input type="submit" value="Reject" class="btn3"/>
+                </form>
+            </div>
+            <%
+                }
+            } else {
+            %>
+            <p>No pending properties found.</p>
+            <%
+                }
+            %>
         </div>
-        <%
-            }
-        } else {
-        %>
-        <p>No pending properties found.</p>
-        <%
-            }
-        %>
-        <a href="<%= request.getContextPath() %>/views/dashboard.jsp">Back to Dashboard</a>
+
 
     </body>
 </html>

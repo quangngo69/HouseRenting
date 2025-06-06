@@ -17,7 +17,10 @@
 %>
 
 <html>
-    <head><title>Property Details</title></head>
+    <head>
+        <title>Property Details</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/static/style2.css" />
+    </head>
     <body>
         <h2><%= p.getTitle()%></h2>
         <img src="<%= request.getContextPath() + "/images/uploads/" + p.getImageFilename()%>" width="300" />
@@ -42,8 +45,8 @@
         <form action="makePayment" method="post">
             <input type="hidden" name="propertyId" value="<%= p.getPropertyId()%>" />
             <input type="hidden" name="rentAmount" value="<%= p.getPrice()%>" />
-            <input type="submit" value="Pay & Book" /><br>
-            <a href="${pageContext.request.contextPath}/propertyList">Back</a>
+            <input type="submit" value="Pay & Book" class="btn3"  /><br>
+            <a href="${pageContext.request.contextPath}/propertyList" class="btn3">Back</a>
         </form>
         <% }%>
        

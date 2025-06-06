@@ -3,48 +3,69 @@
 <%@ page import="model.Property" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
-<head>
-    <title>Browse Properties</title>
-</head>
-<body>
-    <h2>Available Properties</h2>
-    <a href="${pageContext.request.contextPath}/views/dashboard.jsp">Back to Dashboard</a>
+    <head>
+        <title>Browse Properties</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/static/style2.css" />
+    </head>
+    <body>
+        <h2 class="browse-form-title">Available Properties</h2>
 
-    <form method="get" action="propertyList">
-        City: <input type="text" name="city"/>
-        Min Price: <input type="number" name="minPrice"/>
-        Max Price: <input type="number" name="maxPrice"/>
-        Type:
-        <select name="type">
-            <option value="">Any</option>
-            <option value="House">House</option>
-            <option value="Apartment">Apartment</option>
-        </select>
-        Sort:
-        <select name="sort">
-            <option value="">Default</option>
-            <option value="priceAsc">Price Ascending</option>
-            <option value="recent">Most Recent</option>
-        </select>
-        <input type="submit" value="Search"/>
-        <button type="button" onclick="window.location.href = 'propertyList'">Reset Filters</button>
-    </form>
+        <div class="browse-form-actions">
+            <a href="${pageContext.request.contextPath}/views/dashboard.jsp" class="btn3">Back to Dashboard</a>
+        </div>
 
-    <% 
-        List<Property> properties = (List<Property>) request.getAttribute("properties");
-        for (Property p : properties) {
-    %>
-    <div style="border:1px solid #ccc; margin:10px; padding:10px;">
-        <% if (p.getImageFilename() != null && !p.getImageFilename().isEmpty()) { %>
-            <img src="<%= request.getContextPath() + "/images/uploads/" + p.getImageFilename() %>" width="100"/>
-        <% } else { %>
-            <img src="<%= request.getContextPath() + "/images/default.jpg" %>" width="100"/>
-        <% } %>
+        <form method="get" action="propertyList" class="browse-form">
+            <table class="browse-form-table">
+                <tr>
+                    <td>City:</td>
+                    <td><input type="text" name="city" class="browse-input" /></td>
+                    <td>Min Price:</td>
+                    <td><input type="number" name="minPrice" class="browse-input" /></td>
+                    <td>Max Price:</td>
+                    <td><input type="number" name="maxPrice" class="browse-input" /></td>
+                    <td>Type:</td>
+                    <td>
+                        <select name="type" class="browse-input">
+                            <option value="">Any</option>
+                            <option value="House">House</option>
+                            <option value="Apartment">Apartment</option>
+                        </select>
+                    </td>
+                    <td>Sort:</td>
+                    <td>
+                        <select name="sort" class="browse-input">
+                            <option value="">Default</option>
+                            <option value="priceAsc">Price Ascending</option>
+                            <option value="recent">Most Recent</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <div class="browse-btn-group">
+                <input type="submit" value="Search" class="btn3" />
+                <button type="button" class="btn3" onclick="window.location.href = 'propertyList'">Reset Filters</button>
+            </div>
+        </form>
 
-        <h3><%= p.getTitle() %> - $<%= p.getPrice() %></h3>
-        <p><%= p.getTown() %> - <%= p.getPropertyType() %></p>
-        <a href="${pageContext.request.contextPath}/propertyDetails?id=<%= p.getPropertyId() %>">View Details</a>
-    </div>
-    <% } %>
-</body>
+        <%
+            List<Property> properties = (List<Property>) request.getAttribute("properties");
+            for (Property p : properties) {
+        %>
+        <div class="card">
+            <h3><%= p.getTitle()%> - $<%= p.getPrice()%></h3>
+
+            <% if (p.getImageFilename() != null && !p.getImageFilename().isEmpty()) {%>
+            <img src="<%= request.getContextPath() + "/images/uploads/" + p.getImageFilename()%>" class="card-img" />
+            <% } else {%>
+            <img src="<%= request.getContextPath() + "/images/default.jpg"%>" class="card-img" />
+            <% }%>
+
+            <p><%= p.getTown()%> - <%= p.getPropertyType()%></p>
+
+            <div class="card-actions">
+                <a href="${pageContext.request.contextPath}/propertyDetails?id=<%= p.getPropertyId()%>" class="btn3">View Details</a>
+            </div>
+        </div>
+        <% }%>
+    </body>
 </html>

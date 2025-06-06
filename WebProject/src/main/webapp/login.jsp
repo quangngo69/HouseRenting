@@ -1,19 +1,29 @@
 <%@ page session="false" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
-    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
-    response.setHeader("Pragma", "no-cache"); // HTTP 1.0
-    response.setDateHeader("Expires", 0); // Proxies
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setDateHeader("Expires", 0);
 %>
 <html>
-    <head><title>Login</title></head>
+    <head>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/static/style2.css" />
+        <title>Login</title>
+    </head>
     <body>
-        <h2>Login</h2>
-        <form method="post" action="LoginServlet">
-            Username: <input type="text" name="username" required /><br/>
-            Password: <input type="password" name="password" required /><br/>
-            <input type="submit" value="Login"/>
-        </form>
-        <a href="register.jsp">Register</a>
+        <div class="form-container">
+            
+            <form method="post" action="LoginServlet" class="form-box">
+                <h2 class="form-title">Login</h2>
+                <label>Username:</label>
+                <input type="text" name="username" required /><br/>
+                
+                <label>Password:</label>
+                <input type="password" name="password" required /><br/>
+                
+                <input type="submit" value="Login" class="btn"/>
+                <a href="register.jsp" class="btn">Register</a>
+            </form>
+        </div>
     </body>
 </html>

@@ -5,17 +5,20 @@
     User user = (User) session.getAttribute("user");
 %>
 <html>
-<head><title>Add Funds</title></head>
-<body>
-    <h2>Add Funds to Your Account</h2>
+    <head>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/static/style2.css" />
+        <title>Add Funds</title>
+    </head>
+    <body>
+        <h2>Add Funds to Your Account</h2>
 
-    <p>Current Balance: $<%= user.getBalance() %></p>
+        <p>Current Balance: $<%= user.getBalance()%></p>
 
-    <form action="${pageContext.request.contextPath}/addFunds" method="post">
-        Amount: <input type="number" name="amount" step="0.01" min="1" required />
-        <input type="submit" value="Add Funds" />
-    </form>
+        <form action="${pageContext.request.contextPath}/addFunds" method="post">
+            Amount: <input type="number" name="amount" step="0.01" min="1" class="browse-input" required />
+            <input type="submit" value="Add Funds" class="btn3"/>
+        </form>
 
-    <a href="dashboard.jsp">Back to Dashboard</a>
-</body>
+        <a href="dashboard.jsp" class="btn3">Back to Dashboard</a>
+    </body>
 </html>
