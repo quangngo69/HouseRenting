@@ -31,14 +31,14 @@
                             <option value="Apartment">Apartment</option>
                         </select>
                     </td>
-                    <td>Sort:</td>
+<!--                    <td>Sort:</td>
                     <td>
                         <select name="sort" class="browse-input">
                             <option value="">Default</option>
                             <option value="priceAsc">Price Ascending</option>
                             <option value="recent">Most Recent</option>
                         </select>
-                    </td>
+                    </td>-->
                 </tr>
             </table>
             <div class="browse-btn-group">
