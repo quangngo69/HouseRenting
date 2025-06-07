@@ -14,7 +14,7 @@
             <a href="${pageContext.request.contextPath}/views/dashboard.jsp" class="btn3">Back to Dashboard</a>
         </div>
 
-        <form method="get" action="propertyList" class="browse-form">
+<!--        <form method="get" action="propertyList" class="browse-form">
             <table class="browse-form-table">
                 <tr>
                     <td>City:</td>
@@ -31,21 +31,21 @@
                             <option value="Apartment">Apartment</option>
                         </select>
                     </td>
-<!--                    <td>Sort:</td>
+                    <td>Sort:</td>
                     <td>
                         <select name="sort" class="browse-input">
                             <option value="">Default</option>
                             <option value="priceAsc">Price Ascending</option>
                             <option value="recent">Most Recent</option>
                         </select>
-                    </td>-->
+                    </td>
                 </tr>
             </table>
             <div class="browse-btn-group">
                 <input type="submit" value="Search" class="btn3" />
                 <button type="button" class="btn3" onclick="window.location.href = 'propertyList'">Reset Filters</button>
             </div>
-        </form>
+        </form>-->
 
         <%
             List<Property> properties = (List<Property>) request.getAttribute("properties");
